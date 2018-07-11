@@ -59,7 +59,7 @@ Compile.prototype = {
     compileUtil.text(node, this.$vm, exp);
   },
   isDirective: function (attr) {
-    return dir.indexOf('v-') === 0;
+    return attr.indexOf('v-') == 0;
   },
   isEventDirective: function (dir) {
     return dir.indexOf('on') === 0;
@@ -91,8 +91,8 @@ var compileUtil = {
         return;
       }
 
-      me._setVMVal(vm, exp, newValue);
-      val = newValue;
+      me._setVMVal(vm, exp, newVal);
+      val = newVal;
     });
   },
   class: function (node, vm, exp) {
@@ -100,7 +100,7 @@ var compileUtil = {
   },
   bind: function (node, vm, exp, dir) {
     var updaterFn = updater[dir + 'Updater'];
-    updaterFn && updaterFn(node, vm[exp]);
+    updaterFn && updaterFn(node, this._getVMVal(vm, exp));
 
     new Watcher(vm, exp, function (value, oldValue) {
       updaterFn && updaterFn(node, value, oldValue);

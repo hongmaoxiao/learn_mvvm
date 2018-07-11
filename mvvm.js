@@ -36,7 +36,7 @@ MVVM.prototype = {
         var computed = this.$options.computed;
         if (typeof computed === 'object') {
             Object.keys(computed).forEach(function(key) {
-                Objec.defineProperty(me, key, {
+                Object.defineProperty(me, key, {
                     get: typeof computed[key] === 'function' ? computed[key] : computed[key].get,
                     set: function() {},
                 });

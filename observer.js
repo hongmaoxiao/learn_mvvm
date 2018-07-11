@@ -1,9 +1,9 @@
-function Observe(data) {
+function Observer(data) {
     this.data = data;
     this.walk(data);
 }
 
-Observe.prototype = {
+Observer.prototype = {
     walk: function(data) {
         var me = this;
         Object.keys(data).forEach(function(key) {
@@ -15,6 +15,7 @@ Observe.prototype = {
     },
     defineReactive: function(data, key, val) {
         var dep = new Dep();
+        // console.log('notify: ', dep.notify);
 
         var childObj = observe(val);
 
@@ -23,7 +24,7 @@ Observe.prototype = {
             enumerate: true,
             configurable: false,
             get: function() {
-              if (dep.target) {
+              if (Dep.target) {
                 dep.depend();
               }
                 return val;
@@ -45,7 +46,7 @@ function observe(value, vm) {
     return;
   }
 
-  return new Observe(value);
+  return new Observer(value);
 }
 
 var uid = 0;
@@ -55,7 +56,7 @@ function Dep() {
   this.subs = [];
 }
 
-Dep.prototye = {
+Dep.prototype = {
   addSub: function (sub) {
     this.subs.push(sub);
   },
